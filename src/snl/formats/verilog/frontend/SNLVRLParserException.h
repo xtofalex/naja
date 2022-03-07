@@ -14,27 +14,35 @@
  * limitations under the License.
  */
 
-#ifndef __SNL_UTILS_H_
-#define __SNL_UTILS_H_
-
-#include <map>
-#include <vector>
+#ifndef __SNL_VRL_PARSER_EXCEPTION_H_
+#define __SNL_VRL_PARSER_EXCEPTION_H_
 
 namespace naja { namespace SNL {
 
-class SNLLibrary;
-class SNLDesign;
-
-class SNLUtils {
+struct SNLVRLParserException: public std::exception {
   public:
-    using DesignsLevel = std::map<const SNLDesign*, unsigned>;
-    static unsigned levelize(const SNLDesign* design, DesignsLevel& designsLevel);
-    using DesignLevel = std::pair<const SNLDesign*, unsigned>;
-    using SortedDesigns = std::vector<DesignLevel>;
-    static void getDesignsSortedByHierarchicalLevel(const SNLDesign* top, SortedDesigns& sortedDesigns);
-    static void getDesignsSortedByHierarchicalLevel(const SNLLibrary* library, SortedDesigns& sortedDesigns);
+    SNLVRLParserException() = delete;
+    SNLVRLParserException(const SNLVRLParserException&) = default;
+
+    SNLVRLParserException(const std::string& reason):
+      std::exception(),
+      reason_(reason)
+    {}
+
+    std::string getReason() const {
+      return reason_;
+    }
+
+    //LCOV_EXCL_START
+    const char* what() const noexcept override {
+      return reason_.c_str();
+    }
+    //LCOV_EXCL_STOP
+
+  private:
+    const std::string reason_;
 };
 
 }} // namespace SNL // namespace naja
 
-#endif // __SNL_UTILS_H_
+#endif // __SNL_VRL_PARSER_EXCEPTION_H_

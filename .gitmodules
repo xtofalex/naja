@@ -1,3 +1,6 @@
 [submodule "test/googletest"]
 	path = thirdparty/googletest
 	url = https://github.com/google/googletest
+[submodule "thirdparty/Parser-Verilog"]
+	path = thirdparty/Parser-Verilog
+	url = https://github.com/xtofalex/Parser-Verilog

@@ -17,6 +17,7 @@
 #include "SNLVRLDumper.h"
 
 #include <cassert>
+#include <fstream>
 
 #include "SNLLibrary.h"
 #include "SNLDesign.h"
@@ -294,6 +295,13 @@ void SNLVRLDumper::dumpDesign(const SNLDesign* design, std::ostream& o) {
     }
     first = false;
     dumpOneDesign(design, o);
+  }
+}
+
+void SNLVRLDumper::dumpDesign(const SNLDesign* design, const std::filesystem::path& path) {
+  if (std::filesystem::exists(path)) {
+    std::ofstream stream(path);
+    dumpDesign(design, stream);
   }
 }
 

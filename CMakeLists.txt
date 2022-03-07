@@ -26,6 +26,8 @@ ENDIF(CODE_COVERAGE)
 find_package(Boost REQUIRED)
 find_package(LibXml2 REQUIRED)
 find_package(Python3 COMPONENTS Development)
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
 
 add_subdirectory(thirdparty)
 add_subdirectory(src)

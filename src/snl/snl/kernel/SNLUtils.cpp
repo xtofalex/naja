@@ -1,5 +1,6 @@
 #include "SNLUtils.h"
 
+#include "SNLLibrary.h"
 #include "SNLDesign.h"
 
 namespace naja { namespace SNL {
@@ -32,6 +33,30 @@ unsigned SNLUtils::levelize(const SNLDesign* design, DesignsLevel& designsLevel)
 void SNLUtils::getDesignsSortedByHierarchicalLevel(const SNLDesign* top, SortedDesigns& sortedDesigns) {
   SNLUtils::DesignsLevel designsLevel;
   SNLUtils::levelize(top, designsLevel);
+  sortedDesigns = SortedDesigns(designsLevel.begin(), designsLevel.end());
+  std::sort(sortedDesigns.begin(), sortedDesigns.end(),
+    [](const DesignLevel& ldl, const DesignLevel& rdl) { 
+      return ldl.second < rdl.second;
+    }
+  );
+}
+
+void SNLUtils::getDesignsSortedByHierarchicalLevel(const SNLLibrary* library, SortedDesigns& sortedDesigns) {
+  SNLUtils::DesignsLevel designsLevel;
+  for (auto design: library->getDesigns()) {
+    SNLUtils::DesignsLevel designLevels;
+    SNLUtils::levelize(design, designsLevel);
+    for (auto it: designLevels) {
+      auto design = it.first;
+      auto level = it.second;
+      auto designsIt = designsLevel.find(design);
+      if (designsIt == designsLevel.end()) {
+        designLevels[design] = level;
+      } else {
+        designsIt->second = std::max(designsIt->second, level);
+      }
+    }
+  }
   sortedDesigns = SortedDesigns(designsLevel.begin(), designsLevel.end());
   std::sort(sortedDesigns.begin(), sortedDesigns.end(),
     [](const DesignLevel& ldl, const DesignLevel& rdl) { 

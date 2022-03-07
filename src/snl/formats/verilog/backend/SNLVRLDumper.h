@@ -38,6 +38,7 @@ class SNLVRLDumper {
   public:
     class Configuration {
     };
+    void dumpDesign(const SNLDesign* design, const std::filesystem::path& path);
     void dumpDesign(const SNLDesign* design, std::ostream& o);
   private:
     struct DesignAnonymousNaming {
