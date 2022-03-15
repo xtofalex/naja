@@ -15,6 +15,7 @@
 namespace {
 using namespace naja::SNL;
 
+#if 0
 SNLTerm::Direction getSNLDirection(const verilog::PortDirection direction) {
   switch (direction) {
     case verilog::PortDirection::INPUT:
@@ -25,15 +26,17 @@ SNLTerm::Direction getSNLDirection(const verilog::PortDirection direction) {
       return SNLTerm::Direction::InOut;
   }
 }
+#endif
     
 
-struct SNLVerilogParser: public verilog::ParserVerilogInterface {
-  SNLVerilogParser(SNLLibrary* library): verilog::ParserVerilogInterface(), library_(library) {}
+struct SNLVerilogParser: public verilog::VerilogReader {
+  SNLVerilogParser(SNLLibrary* library): verilog::VerilogReader(), library_(library) {}
 
-  void add_module(std::string&& name) override {
+  void visitModule(std::string&& name) override {
     design_ = SNLDesign::create(library_, SNLName(name));
   }
 
+#if 0
   void add_port(verilog::Port&& port) override {
     SNLTerm::Direction direction = getSNLDirection(port.dir);
     assert(port.names.size() == 1);
@@ -69,6 +72,8 @@ struct SNLVerilogParser: public verilog::ParserVerilogInterface {
     }
     SNLInstance::create(design_, model, SNLName(instanceName));
   }
+#endif
+
 
   SNLLibrary* library_  {nullptr};
   SNLDesign*  design_   {nullptr};
