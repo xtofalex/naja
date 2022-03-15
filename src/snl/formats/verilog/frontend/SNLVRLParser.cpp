@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "verilog_driver.hpp"
+#include "verilog_reader.h"
 
 #include "SNLLibrary.h"
 #include "SNLDesign.h"

@@ -1,1 +1,2 @@
+add_subdirectory(libverilog)
 add_subdirectory(googletest EXCLUDE_FROM_ALL)
