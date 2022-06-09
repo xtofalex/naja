@@ -16,10 +16,18 @@
 
 #include "DNLSNLConstructor.h"
 
+#include "SNLDesign.h"
+
 #include "DNLDB.h"
 
-DNL::DNLDB* DNLSNLConstructor::construct(SNL::SNLDesign* top) {
-  DNL::DNLDB* db = DNL::DNLDB::create();
+
+
+namespace naja { namespace DNL {
+
+DNLDB* DNLSNLConstructor::construct(SNL::SNLDesign* top) {
+  DNLDB* db = DNLDB::create();
 
   return db;
 }
+
+}} //namespace DNL // namespace naja

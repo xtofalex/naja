@@ -16,6 +16,6 @@
 
 #include "DNLTerm.h"
 
-namespace DNL {
+namespace naja { namespace DNL {
   
-}
+}} //namespace DNL // namespace naja

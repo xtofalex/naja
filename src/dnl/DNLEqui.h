@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace DNL {
+namespace naja { namespace DNL {
 
 class DNLEqui {
   public:
@@ -26,6 +26,6 @@ class DNLEqui {
     bool   hasDriver_  { true };
 };
 
-}
+}} //namespace DNL // namespace naja}
 
-#endif /* __DNL_EQUI_H_ */
+#endif // __DNL_EQUI_H_

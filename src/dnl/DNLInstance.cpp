@@ -15,3 +15,7 @@
  */
 
 #include "DNLInstance.h"
+
+namespace naja { namespace DNL {
+
+}} //namespace DNL // namespace naja}

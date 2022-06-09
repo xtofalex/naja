@@ -17,17 +17,20 @@
 #ifndef __DNL_SNL_CONSTRUCTOR_H_
 #define __DNL_SNL_CONSTRUCTOR_H_
 
-namespace DNL {
-    class DNLDB;
-}
+namespace naja { 
 
-namespace SNL {
+  namespace SNL {
     class SNLDesign;
-}
+  }
+  namespace DNL {
 
-class DNLSNLConstructor {
-  public:
-    static DNL::DNLDB* construct(SNL::SNLDesign* top);
-};
+    class DNLDB;
 
-#endif /* __DNL_SNL_CONSTRUCTOR_H_ */
+    class DNLSNLConstructor {
+      public:
+        static DNL::DNLDB* construct(SNL::SNLDesign* top);
+    };
+  } //namespace DNL
+} //namespace naja
+
+#endif // __DNL_SNL_CONSTRUCTOR_H_

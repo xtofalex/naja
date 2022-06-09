@@ -17,10 +17,11 @@
 #ifndef __DNL_INSTANCE_H_
 #define __DNL_INSTANCE_H_
 
-namespace DNL {
+namespace naja { namespace DNL {
+
 class DNLInstance {
 };
 
-}
+}} //namespace DNL // namespace naja
 
-#endif /* __DNL_INSTANCE_H_ */
+#endif // __DNL_INSTANCE_H_

@@ -17,12 +17,12 @@
 #ifndef __DNL_TERM_H_
 #define __DNL_TERM_H_
 
-namespace DNL {
+namespace naja { namespace DNL {
 
 class DNLTerm {
 
 };
 
-}
+}} // namespace DNL // namespace naja
 
 #endif /* __DNL_TERM_H_ */
