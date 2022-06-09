@@ -19,6 +19,7 @@
 #include "DNLDB.h"
 
 DNL::DNLDB* DNLSNLConstructor::construct(SNL::SNLDesign* top) {
-    DNL::DNLDB* db = DNL::DNLDB::create();
-    return db;
+  DNL::DNLDB* db = DNL::DNLDB::create();
+
+  return db;
 }
