@@ -23,7 +23,7 @@ using namespace naja::SNL;
 #endif
 
 class SNLFlattenerTest0: public ::testing::Test {
-  protected:
+  public:
     void SetUp() override {
       SNLUniverse* universe = SNLUniverse::create();
       db_ = SNLDB::create(universe);
