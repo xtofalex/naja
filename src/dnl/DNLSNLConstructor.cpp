@@ -17,15 +17,21 @@
 #include "DNLSNLConstructor.h"
 
 #include "SNLDesign.h"
+#include "SNLFlattener.h"
+#include "SNLFlattenerInstanceTree.h"
 
 #include "DNLDB.h"
-
-
 
 namespace naja { namespace DNL {
 
 DNLDB* DNLSNLConstructor::construct(SNL::SNLDesign* top) {
+  SNL::SNLFlattener flattener;
+  flattener.process(top);
+  //auto instanceTree = flattener.getInstanceTree();
   DNLDB* db = DNLDB::create();
+  //for (auto instance: instanceTree->getLeaves()) {
+
+  //}
 
   return db;
 }
