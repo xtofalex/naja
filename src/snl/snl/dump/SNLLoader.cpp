@@ -15,17 +15,69 @@
  */
 
 #include "SNLDump.h"
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+#include "SNLUniverse.h"
+
 #include "SNLDumpManifest.h"
+#include "SNLDumpException.h"
+
+namespace {
+
+void loadDBStream(std::istream& stream) {
+  for(std::string line; std::getline(stream, line);) {
+    std::stringstream ss(line);
+    std::istream_iterator<std::string> begin(ss);
+    std::istream_iterator<std::string> end;
+    std::vector<std::string> vstrings(begin, end);
+    for (std::string token: vstrings) {
+      std::cout << token << std::endl;
+    }
+  }
+}
+
+}
 
 namespace naja { namespace SNL {
 
-void SNLDump::load(const std::filesystem::path& path) {
+SNLDesign* SNLDump::load(const std::filesystem::path& path) {
   if (not std::filesystem::exists(path)) {
     //create error
-    return;
+    return nullptr;
   }
   //load manifest
-  SNLDumpManifest::load(path);
+  SNLDumpManifest manifest = SNLDumpManifest::load(path);
+  auto manifestVersion = manifest.getVersion();
+  if (manifestVersion not_eq SNLDump::getVersion()) {
+    std::ostringstream reason;
+    reason << "Incompatible versions while loading SNLDump: ";
+    reason << "Loader version is " << SNLDump::getVersion().getString()
+      << ", while Dump version is " << manifestVersion.getString();
+    throw SNLDumpException(reason.str());
+  }
+  //Create SNLUniverse if it does not exist
+  std::filesystem::path dumpPath(path/DesignDBName);
+  if (not std::filesystem::exists(dumpPath)) {
+    std::ostringstream reason;
+    reason << dumpPath.string() << " is not a valid path";
+    throw SNLDumpException(reason.str());
+  }
+  std::ifstream dbStream;
+	dbStream.open(dumpPath, std::ios::in);
+  if (not dbStream) {
+    std::ostringstream reason;
+    reason << "cannot open " << dumpPath.string();
+    throw SNLDumpException(reason.str());
+  }
+  if (not SNLUniverse::get()) {
+    SNLUniverse::create();
+  }
+  loadDBStream(dbStream);
+
+  return nullptr;
 }
 
 

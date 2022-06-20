@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-#include "SNLDump.h"
+#ifndef __SNL_DUMP_EXCEPTION_H_
+#define __SNL_DUMP_EXCEPTION_H_
+
+#include "SNLException.h"
 
 namespace naja { namespace SNL {
 
-const SNLDump::Version SNLDump::version_ = SNLDump::Version(0, 1, 0);
+struct SNLDumpException: public SNLException {
+  public:
+    SNLDumpException() = delete;
+    SNLDumpException(const SNLDumpException&) = default;
 
-std::string SNLDump::Version::getString() {
-  return std::to_string(getMajor())
-    + "." + std::to_string(getMinor())
-    + "." + std::to_string(getRevision());
-}
+    SNLDumpException(const std::string& reason): SNLException(reason)
+    {}
+};
 
 }} // namespace SNL // namespace naja
+
+#endif // __SNL_DUMP_EXCEPTION_H_

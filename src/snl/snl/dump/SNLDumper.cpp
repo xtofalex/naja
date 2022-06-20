@@ -17,6 +17,7 @@
 #include "SNLDump.h"
 
 #include <fstream>
+#include <sstream>
 
 #include "SNLDB.h"
 #include "SNLLibrary.h"
@@ -26,6 +27,7 @@
 #include "SNLUtils.h"
 #include "SNLDump.h"
 #include "SNLDumpManifest.h"
+#include "SNLDumpException.h"
 
 namespace {
 using namespace naja::SNL;
@@ -115,19 +117,19 @@ void dumpDesign(const SNLDesign* design, std::ostream& stream) {
 
 namespace naja { namespace SNL {
 
-const SNLDump::Version SNLDump::version_ = SNLDump::Version(0, 1, 0);
 
 void SNLDump::dump(const SNLDesign* top, const std::filesystem::path& path) {
   //create directory
   if (std::filesystem::exists(path)) {
-    //error
-    return;
+    std::ostringstream reason;
+    reason << "cannot dump " << top->getString() << " as " << path.string() << " exists already";
+    throw SNLDumpException(reason.str());
   }
   std::filesystem::create_directory(path);
   //publish manifest
-  SNLDumpManifestDumper::dump(top, path);
+  SNLDumpManifest::dump(path);
   
-  std::filesystem::path dumpPath(path/"design.db");
+  std::filesystem::path dumpPath(path/DesignDBName);
   std::ofstream dumpStream(dumpPath);
   SNLUtils::SortedDesigns designs;
   SNLUtils::getDesignsSortedByHierarchicalLevel(top, designs);

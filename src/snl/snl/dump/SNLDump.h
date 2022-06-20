@@ -28,9 +28,12 @@ class SNLDump {
   public:
     struct Version {
       Version() = delete;
+      Version(const Version&) = default;
       Version(unsigned major, unsigned minor, unsigned revision):
         major_(major), minor_(minor), revision_(revision)
       {}
+      bool operator==(const Version&) const = default;
+
       unsigned major_;
       unsigned minor_;
       unsigned revision_;
@@ -42,6 +45,7 @@ class SNLDump {
 
     static const Version  version_;
     static Version getVersion() { return version_; }
+    static constexpr std::string_view DesignDBName = "design.db";
 
     class Tag {
       public:
@@ -54,7 +58,8 @@ class SNLDump {
     };
 
     static void dump(const SNLDesign* top, const std::filesystem::path& path);
-    static void load(const std::filesystem::path& path);
+    //Returns top
+    static SNLDesign* load(const std::filesystem::path& path);
 };
 
 }} // namespace SNL // namespace naja

@@ -35,6 +35,7 @@ set(SNL_KERNEL_HEADERS
 )
 
 set(SNL_DUMP_SOURCES
+  dump/SNLDump.cpp
   dump/SNLDumpManifest.cpp
   dump/SNLDumper.cpp
   dump/SNLLoader.cpp

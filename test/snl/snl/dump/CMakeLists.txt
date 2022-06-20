@@ -1,6 +1,7 @@
 include(GoogleTest)
 
 set(snl_dump_tests
+  SNLDumpManifestTest.cpp
   SNLDumpTest0.cpp
 )
 

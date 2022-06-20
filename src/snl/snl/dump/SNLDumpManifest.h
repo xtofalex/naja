@@ -23,16 +23,13 @@ namespace naja { namespace SNL {
 
 class SNLDumpManifest {
   public:
+    static constexpr std::string_view ManifestFileName = "snl.mf";
     SNLDump::Version getVersion() const { return version_; }
     static SNLDumpManifest load(const std::filesystem::path& snlDir);
+    static void dump(const std::filesystem::path& snlDir);
   private:
     SNLDumpManifest(): version_(0, 0, 0) {}
     SNLDump::Version  version_;
-};
-
-class SNLDumpManifestDumper {
-  public:
-    static void dump(const SNLDesign* top, const std::filesystem::path& snlDir);
 };
 
 }} // namespace SNL // namespace naja
