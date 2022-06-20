@@ -118,7 +118,10 @@ void dumpDesign(const SNLDesign* design, std::ostream& stream) {
 namespace naja { namespace SNL {
 
 
-void SNLDump::dump(const SNLDesign* top, const std::filesystem::path& path) {
+void SNLDump::dump(const std::filesystem::path& path) {
+  //First round dump DB, Library and Design Interfaces
+  auto universe = SNLUniverse::getUserDBs();
+
   //create directory
   if (std::filesystem::exists(path)) {
     std::ostringstream reason;
@@ -133,6 +136,15 @@ void SNLDump::dump(const SNLDesign* top, const std::filesystem::path& path) {
   std::ofstream dumpStream(dumpPath);
   SNLUtils::SortedDesigns designs;
   SNLUtils::getDesignsSortedByHierarchicalLevel(top, designs);
+  //get all designs libraries in a set
+  using Libraries = std::set<SNLLibrary*>;
+  Libraries libraries;
+  for (const SNLUtils::DesignLevel& dl: designs) {
+    auto design = dl.first;
+    libraries.insert(libraries);
+  }
+  
+
   for (const SNLUtils::DesignLevel& dl: designs) {
     dumpDesign(dl.first, dumpStream);
   }

@@ -32,10 +32,16 @@ void loadDBStream(std::istream& stream) {
     std::stringstream ss(line);
     std::istream_iterator<std::string> begin(ss);
     std::istream_iterator<std::string> end;
-    std::vector<std::string> vstrings(begin, end);
-    for (std::string token: vstrings) {
-      std::cout << token << std::endl;
+    std::vector<std::string> tokens(begin, end);
+    std::string_view tag(tokens[0]);
+    if (tag == "#") {
+      continue;
+    } else if (tag == "L") {
+
     }
+    //for (std::string token: vstrings) {
+    //  std::cout << token << std::endl;
+    //}
   }
 }
 
