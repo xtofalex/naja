@@ -15,7 +15,7 @@ add_library(coverage_config INTERFACE)
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 IF(CODE_COVERAGE)
   # Add required flags (GCC & LLVM/Clang)
-  TARGET_COMPILE_OPTIONS(coverage_config INTERFACE
+  target_compile_options(coverage_config INTERFACE
     -O0        # no optimization
     -g         # generate debug info
     --coverage # sets all required flags
@@ -26,6 +26,7 @@ ENDIF(CODE_COVERAGE)
 find_package(Boost REQUIRED)
 find_package(LibXml2 REQUIRED)
 find_package(Python3 COMPONENTS Development)
+find_package(TBB)
 
 add_subdirectory(thirdparty)
 add_subdirectory(src)
