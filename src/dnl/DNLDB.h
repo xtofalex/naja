@@ -65,6 +65,11 @@ class DNLDB {
    * 
    * 
    * 
+   *    InstancesIndex: Table of pairs
+   *    [ DBID LibraryID InstanceID ]
+   *    [ DBID LibraryID InstanceID ]
+   *    [ DBID LibraryID InstanceID ]
+   *    [ DBID LibraryID InstanceID ]
    * 
    *    FlatInstances
    *    [ [SNLInstanceID parentId [childID childID childID] startTerminalID stopTerminalID] |     ] 

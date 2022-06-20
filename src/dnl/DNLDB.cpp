@@ -36,8 +36,11 @@ void DNLDB::destroy() {
   delete this;
 }
 
-void addInstance() {
-  
-}
+//  
+//  FlatInstances
+//  [ [SNLInstanceID parentId [childID childID childID] startTerminalID stopTerminalID] |     ] 
+//void DNLDB::addInstance() {
+//  
+//}
 
 }} //namespace DNL // namespace naja
