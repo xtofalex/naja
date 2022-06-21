@@ -19,37 +19,27 @@
 #include <iostream>
 
 #include "SNLDesign.h"
-#include "SNLFlattener.h"
-#include "SNLFlattenerInstanceTree.h"
-#include "SNLFlattenerInstanceTreeNode.h"
 
 #include "DNLDB.h"
 
 namespace naja { namespace DNL {
 
 DNLDB* DNLSNLConstructor::construct(SNL::SNLDesign* top) {
-  SNL::SNLFlattener flattener;
-  flattener.process(top);
-  auto instanceTree = flattener.getInstanceTree();
   DNLDB* db = DNLDB::create();
   //go down in tree and create an entry for each instance
   //construct stack of nodes to visit
-  using NodeStack = std::stack<SNL::SNLFlattenerInstanceTreeNode*>;
-  NodeStack nodes;
-  if (instanceTree->getRoot()) {
-    nodes.push(instanceTree->getRoot());
-  }
-  while (not nodes.empty()) {
-    auto node = nodes.top();
-    nodes.pop();
-    for (auto child: node->getChildren()) {
-      nodes.push(child);
-    }
-    if (node->isRoot()) {
-      
-    } else {
-      auto instance = node->getInstance();
-      std::cerr << instance->getString() << std::endl;
+  using Instances = std::deque<SNL::SNLInstance*>;
+  Instances instances;
+
+  instances.assign(top->getInstances().begin(), top->getInstances().end());
+  while (not instances.empty()) {
+    auto instance = instances.front();
+    //add instance in SNLDB
+    
+    instances.pop_front();
+    if (not instance->isLeaf()) {
+      auto model = instance->getModel();
+      instances.insert(instances.end(), model->getInstances().begin(), model->getInstances().end());
     }
   }
   return db;
