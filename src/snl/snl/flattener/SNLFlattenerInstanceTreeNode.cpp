@@ -162,12 +162,12 @@ SNLCollection<SNLFlattenerInstanceTreeNode*> SNLFlattenerInstanceTreeNode::getCh
 
 SNLCollection<SNLFlattenerInstanceTreeNode*> SNLFlattenerInstanceTreeNode::getLeaves() const {
   auto childrenGetter = [](SNLFlattenerInstanceTreeNode* n) { return n->getChildren(); };
-  auto leafCritetion = [](SNLFlattenerInstanceTreeNode* n) { return n->isLeaf(); };
+  auto leafCriterion = [](SNLFlattenerInstanceTreeNode* n) { return n->isLeaf(); };
   return SNLCollection(
       new SNLTreeLeavesCollection(
         const_cast<SNLFlattenerInstanceTreeNode*>(this),
         childrenGetter,
-        leafCritetion));
+        leafCriterion));
 }
 
 //LCOV_EXCL_START

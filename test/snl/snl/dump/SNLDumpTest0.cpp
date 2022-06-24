@@ -33,7 +33,9 @@ class SNLDumpTest0: public ::testing::Test {
       top_ = SNLNetlist0::create(db);
     }
     void TearDown() override {
-      SNLUniverse::get()->destroy();
+      if (SNLUniverse::get()) {
+        SNLUniverse::get()->destroy();
+      }
     }
     SNLDesign*            top_;
     std::filesystem::path dumpsPath_;
@@ -45,9 +47,13 @@ TEST_F(SNLDumpTest0, test) {
   if (std::filesystem::exists(test0Path)) {
     std::filesystem::remove_all(test0Path);
   }
-  SNLDump::dump(top_, test0Path);
-
+  ASSERT_TRUE(SNLUniverse::get());
+  SNLDump::dumpUniverse(test0Path);
+  ASSERT_TRUE(SNLUniverse::get());
+  SNLUniverse::get()->destroy();
+  ASSERT_FALSE(SNLUniverse::get());
   {
-    SNLDump::load(test0Path);
+    SNLDump::loadUniverse(test0Path);
   }
+  ASSERT_TRUE(SNLUniverse::get());
 }

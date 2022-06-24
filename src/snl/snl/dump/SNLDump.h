@@ -49,17 +49,18 @@ class SNLDump {
 
     class Tag {
       public:
+        static constexpr char Library     { 'L' };
         static constexpr char Design      { 'D' };
         static constexpr char ScalarTerm  { 'T' };
         static constexpr char BusTerm     { 'B' };
-        static constexpr char Net         { 'N' };
+        static constexpr char ScalarNet   { 'N' };
+        static constexpr char BusNet      { 'C' };
         static constexpr char Instance    { 'I' };
         static constexpr char Parameter   { 'P' };
     };
 
-    static void dump(const SNLDesign* top, const std::filesystem::path& path);
-    //Returns top
-    static SNLDesign* load(const std::filesystem::path& path);
+    static void dumpUniverse(const std::filesystem::path& path);
+    static void loadUniverse(const std::filesystem::path& path);
 };
 
 }} // namespace SNL // namespace naja

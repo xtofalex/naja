@@ -49,10 +49,10 @@ void loadDBStream(std::istream& stream) {
 
 namespace naja { namespace SNL {
 
-SNLDesign* SNLDump::load(const std::filesystem::path& path) {
+void SNLDump::loadUniverse(const std::filesystem::path& path) {
   if (not std::filesystem::exists(path)) {
     //create error
-    return nullptr;
+    return;
   }
   //load manifest
   SNLDumpManifest manifest = SNLDumpManifest::load(path);
@@ -82,8 +82,6 @@ SNLDesign* SNLDump::load(const std::filesystem::path& path) {
     SNLUniverse::create();
   }
   loadDBStream(dbStream);
-
-  return nullptr;
 }
 
 
