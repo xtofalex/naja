@@ -43,4 +43,17 @@ void DNLDB::pushLeaf(const SNL::SNLInstance* instance, size_t parentIndex) {
   instances_[nextInstanceIndex] = leaves_.size();
 }
 
+DNLDB::SNLInstanceIDs DNLDB::getInstancePath(size_t index) const {
+  SNLInstanceIDs instanceIDs;
+  size_t snlID = leaves_[index];
+  instanceIDs.push_back(SNL::SNLID::DesignObjectID(snlID));
+  size_t parentIndex = leaves_[index+1];
+  while (parentIndex) {
+    snlID = instances_[parentIndex];
+    instanceIDs.push_back(SNL::SNLID::DesignObjectID(snlID));
+    parentIndex = instances_[parentIndex+1];
+  }
+  return instanceIDs;
+}
+
 }} //namespace DNL // namespace naja

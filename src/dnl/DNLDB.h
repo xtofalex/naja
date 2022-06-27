@@ -18,14 +18,13 @@
 #define __DNLDB_H_
 
 #include <vector>
-
-//#include "DNLInstance.h"
-//#include "DNLEqui.h"
+#include "SNLID.h"
 
 namespace naja { 
+
 namespace SNL {
   class SNLInstance;
-}
+}  
 
 namespace DNL {
 
@@ -87,6 +86,7 @@ class DNLDB {
 
   public:
     friend class DNLSNLConstructor;
+    using SNLInstanceIDs = std::vector<SNL::SNLID::DesignObjectID>;
     using DNLInstances = std::vector<size_t>;
     //using DNLInstances = std::vector<DNLInstance>;
     //using DNLTerminals = std::vector<DNLTerm>;
@@ -94,13 +94,16 @@ class DNLDB {
     //using DNLEquisConnectivity = std::vector<size_t>;
 
     static DNLDB* create();
+     
+    SNLInstanceIDs getInstancePath(size_t index) const;
 
   private:
     size_t pushInstance(const SNL::SNLInstance* instance, size_t parentIndex);
     void pushLeaf(const SNL::SNLInstance* instance, size_t parentIndex);
 
-    DNLInstances  instances_;
-    DNLInstances  leaves_;
+    SNLInstanceIDs  snlInstanceIDs_;
+    DNLInstances    instances_;
+    DNLInstances    leaves_;
     //DNLTerminals  terminals_;
     //DNLEquis      equis_;
 };
