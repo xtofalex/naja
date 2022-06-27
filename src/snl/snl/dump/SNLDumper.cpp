@@ -20,13 +20,10 @@
 #include <sstream>
 
 #include "SNLUniverse.h"
-//#include "SNLLibrary.h"
-//#include "SNLDesign.h"
 #include "SNLScalarTerm.h"
 #include "SNLBusTerm.h"
 #include "SNLScalarNet.h"
 #include "SNLBusNet.h"
-//#include "SNLUtils.h"
 #include "SNLDump.h"
 #include "SNLDumpManifest.h"
 #include "SNLDumpException.h"
@@ -34,40 +31,13 @@
 namespace {
 using namespace naja::SNL;
 
-#if 0
-
-
-
-void dumpInstance(const SNLInstance* instance, std::ostream& stream) {
-  //DBID is unsigned char
-  //+ promotes it to numerical value
-  stream << SNLDump::Tag::Instance
-    << " " << +instance->getModel()->getDB()->getID()
-    << " " << instance->getModel()->getLibrary()->getID()
-    << " " << instance->getModel()->getID()
-    << " " << instance->getID();
-  if (not instance->isAnonymous()) {
-    stream << " " << instance->getName().getString();
+void dumpScalarNet(const SNLScalarNet* net, std::ostream& stream) {
+  stream << SNLDump::Tag::BusNet
+    << " " << net->getID();
+  if (not net->isAnonymous()) {
+    stream << " " << net->getName().getString();
   }
   stream << std::endl;
-}
-
-void dumpDesign(const SNLDesign* design, std::ostream& stream) {
-  stream << SNLDump::Tag::Design
-    << " " << design->getLibrary()->getID()
-    << " " << design->getID()
-    << " " << design->getName().getString() << std::endl;
-  for (auto net: design->getNets()) {
-    dumpNet(net, stream);
-  }
-  for (auto instance: design->getInstances()) {
-    dumpInstance(instance, stream);
-  }
-}
-#endif
-
-void dumpScalarNet(const SNLScalarNet* net, std::ostream& stream) {
-
 }
 
 void dumpBusNet(const SNLBusNet* net, std::ostream& stream) {
@@ -141,11 +111,26 @@ void dumpDesignInterface(const SNLDesign* design, std::ostream& stream) {
   }
 }
 
+void dumpInstance(const SNLInstance* instance, std::ostream& stream) {
+  stream << SNLDump::Tag::Instance
+    << " " << +instance->getModel()->getDB()->getID()
+    << " " << instance->getModel()->getLibrary()->getID()
+    << " " << instance->getModel()->getID()
+    << " " << instance->getID();
+  if (not instance->isAnonymous()) {
+    stream << " " << instance->getName().getString();
+  }
+  stream << std::endl;
+}
+
 void dumpDesignContent(const SNLDesign* design, std::ostream& stream) {
   stream << SNLDump::Tag::Design
     << " " << design->getLibrary()->getID()
     << " " << design->getID()
     << " " << design->getName().getString() << std::endl;
+  for (auto instance: design->getInstances()) {
+    dumpInstance(instance, stream);
+  }
   for (auto net: design->getNets()) {
     dumpNet(net, stream);
   }
@@ -223,7 +208,7 @@ void SNLDump::dumpUniverse(const std::filesystem::path& path) {
   std::filesystem::create_directory(path);
 
   //start manifest
-  SNLDumpManifest::dump(path);
+  auto manifestStream = SNLDumpManifest::start(path);
 
   auto dbs = universe->getUserDBs();
   for (auto db: dbs) {

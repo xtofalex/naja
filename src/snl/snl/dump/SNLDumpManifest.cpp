@@ -39,7 +39,7 @@ Tokens extractTokens(const std::string& s) {
 
 namespace naja { namespace SNL {
 
-void SNLDumpManifest::dump(const std::filesystem::path& snlDir) {
+std::ostream SNLDumpManifest::start(const std::filesystem::path& snlDir) {
   std::filesystem::path manifestPath(snlDir/ManifestFileName);
   std::ofstream stream;
   stream.open(manifestPath, std::ofstream::out);
@@ -55,6 +55,7 @@ void SNLDumpManifest::dump(const std::filesystem::path& snlDir) {
     << " " << SNLDump::getVersion().getMinor()
     << " " << SNLDump::getVersion().getRevision()
     << std::endl;
+  return std::move(stream);
 }
 
 SNLDumpManifest SNLDumpManifest::load(const std::filesystem::path& snlDir) {

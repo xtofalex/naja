@@ -26,7 +26,7 @@ class SNLDumpManifest {
     static constexpr std::string_view ManifestFileName = "snl.mf";
     SNLDump::Version getVersion() const { return version_; }
     static SNLDumpManifest load(const std::filesystem::path& snlDir);
-    static void dump(const std::filesystem::path& snlDir);
+    static std::ostream start(const std::filesystem::path& snlDir);
   private:
     SNLDumpManifest(): version_(0, 0, 0) {}
     SNLDump::Version  version_;
