@@ -19,10 +19,15 @@
 
 #include <vector>
 
-#include "DNLInstance.h"
-#include "DNLEqui.h"
+//#include "DNLInstance.h"
+//#include "DNLEqui.h"
 
-namespace naja { namespace DNL {
+namespace naja { 
+namespace SNL {
+  class SNLInstance;
+}
+
+namespace DNL {
 
 class DNLDB {
   /**
@@ -81,23 +86,23 @@ class DNLDB {
    */          
 
   public:
-    using DNLInstances = std::vector<DNLInstance>;
+    friend class DNLSNLConstructor;
+    using DNLInstances = std::vector<size_t>;
+    //using DNLInstances = std::vector<DNLInstance>;
     //using DNLTerminals = std::vector<DNLTerm>;
-    using DNLEquis = std::vector<DNLEqui>;
-    using DNLEquisConnectivity = std::vector<size_t>;
+    //using DNLEquis = std::vector<DNLEqui>;
+    //using DNLEquisConnectivity = std::vector<size_t>;
 
     static DNLDB* create();
-    void destroy();
-  private:
-    static void preCreate();
-    void postCreate();
-    void preDestroy();
 
-    void addInstance(size_t start, size_t end);
+  private:
+    size_t pushInstance(const SNL::SNLInstance* instance, size_t parentIndex);
+    void pushLeaf(const SNL::SNLInstance* instance, size_t parentIndex);
 
     DNLInstances  instances_;
+    DNLInstances  leaves_;
     //DNLTerminals  terminals_;
-    DNLEquis      equis_;
+    //DNLEquis      equis_;
 };
 
 }} //namespace DNL // namespace naja

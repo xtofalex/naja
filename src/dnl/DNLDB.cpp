@@ -16,31 +16,31 @@
 
 #include "DNLDB.h"
 
+#include "SNLInstance.h"
+#include "SNLDesign.h"
+
 namespace naja { namespace DNL {
 
 DNLDB* DNLDB::create() {
-  preCreate();
   auto db = new DNLDB();
-  db->postCreate();
   return db;
 }
 
-void DNLDB::preCreate() {}
-
-void DNLDB::postCreate() {}
-
-void DNLDB::preDestroy() {}
-
-void DNLDB::destroy() {
-  preDestroy();
-  delete this;
+size_t DNLDB::pushInstance(const SNL::SNLInstance* instance, size_t parentIndex) {
+  // SNLInstance ID, ParentIndex
+  instances_.insert(instances_.end(), {instance->getID(), parentIndex});
+  return instances_.size()-2;
 }
 
-//  
-//  FlatInstances
-//  [ [SNLInstanceID parentId [childID childID childID] startTerminalID stopTerminalID] |     ] 
-//void DNLDB::addInstance() {
-//  
-//}
+void DNLDB::pushLeaf(const SNL::SNLInstance* instance, size_t parentIndex) {
+  // SNLInstance ID, ParentIndex, nextInstance, Term, Term, Term, Term, .... 
+  leaves_.insert(leaves_.end(), {instance->getID(), parentIndex, 0});
+  //size_t instanceIndex = leaves_.size()-3;
+  size_t nextInstanceIndex = leaves_.size()-2;
+  auto model = instance->getModel();
+  size_t nbBitTerms = model->getBitTerms().size();
+  instances_.resize(leaves_.size() + nbBitTerms);
+  instances_[nextInstanceIndex] = leaves_.size();
+}
 
 }} //namespace DNL // namespace naja

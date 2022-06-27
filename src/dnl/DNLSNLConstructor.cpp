@@ -28,18 +28,29 @@ DNLDB* DNLSNLConstructor::construct(SNL::SNLDesign* top) {
   DNLDB* db = DNLDB::create();
   //go down in tree and create an entry for each instance
   //construct stack of nodes to visit
-  using Instances = std::deque<SNL::SNLInstance*>;
+  using Instance = std::pair<size_t, SNL::SNLInstance*>;
+  using Instances = std::deque<Instance>;
   Instances instances;
 
-  instances.assign(top->getInstances().begin(), top->getInstances().end());
+  for (auto snlInstance: top->getInstances()) {
+    instances.push_back(Instance(0, snlInstance));
+  }
+
   while (not instances.empty()) {
     auto instance = instances.front();
     //add instance in SNLDB
-    
+    auto parentIndex = instance.first;
+    auto snlInstance = instance.second; 
     instances.pop_front();
-    if (not instance->isLeaf()) {
-      auto model = instance->getModel();
-      instances.insert(instances.end(), model->getInstances().begin(), model->getInstances().end());
+
+    if (snlInstance->isLeaf()) {
+      db->pushLeaf(snlInstance, parentIndex);
+    } else {
+      auto instanceIndex = db->pushInstance(snlInstance, parentIndex);
+      auto model = snlInstance->getModel();
+      for (auto subSNLInstance: model->getInstances()) {
+        instances.push_back(Instance(instanceIndex, subSNLInstance));
+      }
     }
   }
   return db;

@@ -18,12 +18,10 @@
 #define __DNL_SNL_CONSTRUCTOR_H_
 
 namespace naja { 
-
   namespace SNL {
     class SNLDesign;
   }
   namespace DNL {
-
     class DNLDB;
 
     class DNLSNLConstructor {

@@ -1,6 +1,6 @@
 set(SOURCES
-  DNLInstance.cpp
-  DNLEqui.cpp
+  #DNLInstance.cpp
+  #DNLEqui.cpp
   DNLDB.cpp
   DNLSNLConstructor.cpp
 )
