@@ -208,7 +208,7 @@ void SNLDump::dumpUniverse(const std::filesystem::path& path) {
   std::filesystem::create_directory(path);
 
   //start manifest
-  auto manifestStream = SNLDumpManifest::start(path);
+  //auto manifestStream = SNLDumpManifest::start(path);
 
   auto dbs = universe->getUserDBs();
   for (auto db: dbs) {

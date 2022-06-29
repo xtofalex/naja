@@ -42,7 +42,7 @@ TEST_F(SNLDumpManifestTest, test0) {
     std::filesystem::remove_all(test0Path);
   }
   std::filesystem::create_directory(test0Path);
-  SNLDumpManifest::dump(test0Path);
+  //SNLDumpManifest::dump(test0Path);
   ASSERT_TRUE(std::filesystem::exists(test0Path/SNLDumpManifest::ManifestFileName));
 
   //Reload

@@ -32,7 +32,9 @@ class SNLDump {
       Version(unsigned major, unsigned minor, unsigned revision):
         major_(major), minor_(minor), revision_(revision)
       {}
-      bool operator==(const Version&) const = default;
+      //bool operator==(const Version&) const = default;
+      auto operator<=>(const Version&) const = default;
+
 
       unsigned major_;
       unsigned minor_;
