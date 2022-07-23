@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-#ifndef __SNL_DUMP_MANIFEST_H_
-#define __SNL_DUMP_MANIFEST_H_
-
-#include "SNLDump.h"
+#include "SNLCapnP.h"
 
 namespace naja { namespace SNL {
 
-class SNLDumpManifest {
-  public:
-    SNLDump::Version getVersion() const { return version_; }
-    static SNLDumpManifest load(const std::filesystem::path& snlDir);
-  private:
-    SNLDumpManifest(): version_(0, 0, 0) {}
-    SNLDump::Version  version_;
-};
+void SNLCapnP::dump(const SNLDB* db, const std::filesystem::path& path) {
+  std::filesystem::create_directory(path);
+  dumpInterface(db, path/InterfaceName);
+  dumpImplementation(db, path/ImplementationName);
+}
 
-class SNLDumpManifestDumper {
-  public:
-    static void dump(const SNLDesign* top, const std::filesystem::path& snlDir);
-};
+SNLDB* SNLCapnP::load(const std::filesystem::path& path) {
+  loadInterface(path/InterfaceName);
+  SNLDB* db = loadImplementation(path/ImplementationName);
+  return db;
+}
 
 }} // namespace SNL // namespace naja
-
-#endif // __SNL_DUMP_MANIFEST_H_
