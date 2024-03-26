@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 The Naja authors <https://github.com/xtofalex/naja/blob/main/AUTHORS>
+// SPDX-FileCopyrightText: 2023 The Naja authors <https://github.com/najaeda/naja/blob/main/AUTHORS>
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -137,7 +137,7 @@ naja::SNL::SNLDesign* verifyInputs(
 #define GET_RELATED_INSTTERMS_IN_ARCS(ARCS) \
   auto instance = iterm->getInstance(); \
   const TimingArcs* timingArcs = getTimingArcs(instance); \
-  auto it = timingArcs->ARCS.find(iterm->getTerm()); \
+  auto it = timingArcs->ARCS.find(iterm->getBitTerm()); \
   if (it == timingArcs->ARCS.end()) { \
     return NajaCollection<SNLInstTerm*>(); \
   } \

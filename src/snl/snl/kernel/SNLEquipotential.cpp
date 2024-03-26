@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 The Naja authors <https://github.com/xtofalex/naja/blob/main/AUTHORS>
+// SPDX-FileCopyrightText: 2023 The Naja authors <https://github.com/najaeda/naja/blob/main/AUTHORS>
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -48,7 +48,7 @@ struct SNLEquipotentialExtractor {
           instTermOccurrences_.emplace(naja::SNL::SNLInstTermOccurrence(path, instTerm));
         } else {
           //get inside instance by exploring from term occurrence
-          auto term = instTerm->getTerm();
+          auto term = instTerm->getBitTerm();
           auto instancePath = naja::SNL::SNLPath(path, instance);
           //
           extractNetFromNetComponentOccurrence(naja::SNL::SNLBitTermOccurrence(instancePath, term), false);

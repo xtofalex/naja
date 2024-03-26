@@ -1,5 +1,5 @@
 // Copyright 2022 The Naja Authors.
-// SPDX-FileCopyrightText: 2023 The Naja authors <https://github.com/xtofalex/naja/blob/main/AUTHORS>
+// SPDX-FileCopyrightText: 2023 The Naja authors <https://github.com/najaeda/naja/blob/main/AUTHORS>
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -16,6 +16,7 @@ class SNLBitTerm;
 class SNLInstTerm final: public SNLNetComponent {
   public:
     friend class SNLInstance;
+    friend class SNLBitNet;
     using super = SNLNetComponent;
     SNLInstTerm() = delete;
 
@@ -23,7 +24,7 @@ class SNLInstTerm final: public SNLNetComponent {
 
     SNLID getSNLID() const override;
     SNLInstance* getInstance() const { return instance_; }
-    SNLBitTerm* getTerm() const { return term_; }
+    SNLBitTerm* getBitTerm() const { return bitTerm_; }
     SNLBitNet* getNet() const override { return net_; }
     void setNet(SNLNet* net) override;
 
@@ -46,8 +47,8 @@ class SNLInstTerm final: public SNLNetComponent {
     void destroyFromInstance();
 
     SNLInstance*  instance_;
-    SNLBitTerm*   term_;
-    SNLBitNet*    net_  { nullptr};
+    SNLBitTerm*   bitTerm_;
+    SNLBitNet*    net_      { nullptr};
 };
 
 }} // namespace SNL // namespace naja
